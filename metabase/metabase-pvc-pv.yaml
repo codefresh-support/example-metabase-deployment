@@ -1,0 +1,32 @@
+# For simplicity, this example uses hostPath node local storage
+# For a real deployment, it is recommended to use an
+# external volume available to your platform for your PV
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: metabase-pv
+  labels:
+    type: local  
+    app: metabase
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi 
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/metabase"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: metabase-pvc
+  labels:
+    app: metabase
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi  
